@@ -235,7 +235,7 @@ def synthesize_pose(joints, estimated_joints, near_joints, area, num_overlap):
                 synth_inv[0] = x[rand_idx]
                 synth_inv[1] = y[rand_idx]
                 synth_inv[2] = 1
-
+        
 
         # swap prob
         synth_swap = np.zeros(3)

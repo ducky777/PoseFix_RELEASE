@@ -1,5 +1,5 @@
 import tensorflow as tf
-import tensorflow.contrib.slim as slim
+import tf_slim as slim
 import numpy as np
 from collections import OrderedDict as dict
 import setproctitle
@@ -67,14 +67,14 @@ class ModelDesc(object):
                 else:
                     assert v.get_shape().as_list() == [], \
                         "Summary tensor only supports scalar but got {}".format(v.get_shape().as_list())
-                tf.add_to_collection(name, v)
+                tf.compat.v1.add_to_collection(name, v)
         else:
             if vars.get_shape() == None:
                 print('Summary tensor {} got an unknown shape.'.format(name))
             else:
                 assert vars.get_shape().as_list() == [], \
                     "Summary tensor only supports scalar but got {}".format(vars.get_shape().as_list())
-            tf.add_to_collection(name, vars)
+            tf.compat.v1.add_to_collection(name, vars)
         self._tower_summary.append([name, reduced_method])
 
     @abc.abstractmethod
@@ -365,7 +365,7 @@ class Trainer(Base):
         weights_regularizer = tf.contrib.layers.l2_regularizer(self.cfg.weight_decay)
 
         tower_grads = []
-        with tf.variable_scope(tf.get_variable_scope()):
+        with tf.compat.v1.variable_scope(tf.get_variable_scope()):
             for i in range(self.cfg.num_gpus):
                 with tf.device('/gpu:%d' % i):
                     with tf.name_scope('tower_%d' % i) as name_scope:
@@ -397,7 +397,7 @@ class Trainer(Base):
                         else:
                             grads = self._optimizer.compute_gradients(loss)
                         final_grads = []
-                        with tf.variable_scope('Gradient_Mult') as scope:
+                        with tf.compat.v1.variable_scope('Gradient_Mult') as scope:
                             for grad, var in grads:
                                 final_grads.append((grad, var))
                         tower_grads.append(final_grads)
@@ -519,7 +519,7 @@ class Tester(Base):
     def _make_graph(self):
         self.logger.info("Generating testing graph on {} GPUs ...".format(self.cfg.num_gpus))
 
-        with tf.variable_scope(tf.get_variable_scope()):
+        with tf.compat.v1.variable_scope(tf.get_variable_scope()):
             for i in range(self.cfg.num_gpus):
                 with tf.device('/gpu:%d' % i):
                     with tf.name_scope('tower_%d' % i) as name_scope:

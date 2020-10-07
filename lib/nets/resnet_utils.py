@@ -40,13 +40,13 @@ from __future__ import print_function
 
 import collections
 
-from tensorflow.contrib import layers as layers_lib
-from tensorflow.contrib.framework.python.ops import add_arg_scope
-from tensorflow.contrib.framework.python.ops import arg_scope
-from tensorflow.contrib.layers.python.layers import initializers
-from tensorflow.contrib.layers.python.layers import layers
-from tensorflow.contrib.layers.python.layers import regularizers
-from tensorflow.contrib.layers.python.layers import utils
+from tf_slim import layers as layers_lib
+from tf_slim import add_arg_scope
+from tf_slim import arg_scope
+from tf_slim import initializers
+from tf_slim import layers
+from tf_slim import regularizers
+from tf_slim import utils
 from tensorflow.python.framework import ops
 from tensorflow.python.ops import array_ops
 from tensorflow.python.ops import nn_ops
