@@ -137,6 +137,8 @@ class Model(ModelDesc):
         return heatmap * 255.
 
     def make_network(self, is_train):
+        is_train = True
+        
         if is_train:
             image = tf.compat.v1.placeholder(tf.float32, shape=[cfg.batch_size, *cfg.input_shape, 3])
             target_coord = tf.compat.v1.placeholder(tf.float32, shape=[cfg.batch_size, cfg.num_kps, 2])
